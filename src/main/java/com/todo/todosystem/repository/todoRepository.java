@@ -2,12 +2,16 @@ package com.todo.todosystem.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.todo.todosystem.model.todo;
 
 
-public interface todoRepository extends JpaRepository<todo, Integer> {
-    List<todo> getToDos();
-    List<String> createToDos();
+
+public interface todoRepository {
+    List<todo> saveTodo(todo newTodo);
+    List<todo> getTodos();
 }

@@ -3,21 +3,47 @@ package com.todo.todosystem.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.todo.todosystem.model.todo;
+import com.todo.todosystem.repository.todoRepository;
 
 
-import com.todo.todosystem.repository.todoRepositoryImpl;
+
 
 @Service
-public class todoServiceImpl implements todoService {
+public class todoServiceImpl {
     @Autowired
-    private todoRepositoryImpl repository;
+    private todoRepository repository;
+
+    
+    public todoServiceImpl(todoRepository repository) {
+        this.repository = repository;
+    }
+
+   
     // @Override
-    // public List<todo> getToDos() {
-        
+    // public Page<todo> getToDos(int pageNo, int pageSize) { 
+    //     Pageable pageable = PageRequest.of(pageNo, pageSize);
+    //     return repository.findAll(pageable).getContent();
     // }
-    @Override
-    public List<String> createToDo() { 
-        return repository.createToDos();
+
+
+    public List<todo> findAll() {
+        return repository.getTodos();
+    }
+
+    // public Page<todo> findPaginated(int page, int size) {
+      
+    //     Pageable pageable = PageRequest.of(page, size);
+    //     return repository.findAll(pageable);
+    // }
+
+    public List<todo> save(todo todoItem) {
+        return repository.saveTodo(todoItem);
     }
 }

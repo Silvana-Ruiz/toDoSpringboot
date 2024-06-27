@@ -18,11 +18,6 @@ import jakarta.persistence.Id;
 
 @Entity
 public class todo {
-    enum Priority {
-        High,
-        Medium,
-        Low
-      }
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,13 +29,14 @@ public class todo {
     private Priority priority;
     private LocalDate creationDate;
 
-    public todo(int Id, String text, Optional<LocalDate> dueDate, Optional<LocalDate> doneDate, Priority priority, LocalDate creationDate) {
+    // remove the optional in priority parameter
+    public todo(int Id, String text) {
         this.Id = Id;
         this.text = text;
-        this.dueDate = dueDate;
+        // this.dueDate = dueDate;
         this.doneFlag = false;
-        this.doneDate = doneDate;
-        this.priority = priority;
+        // this.doneDate = doneDate;
+        // this.priority = priority;
         this.creationDate = LocalDate.now();
     }
 
