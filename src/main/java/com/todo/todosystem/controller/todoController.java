@@ -49,8 +49,8 @@ public class todoController {
     // }
 
     @PostMapping("/create")
-    public ResponseEntity<List<todo>> createTodoItem(@RequestBody todo todoItem) {
-        List<todo> createdTodoItem = todoServiceInstance.save(todoItem);
+    public ResponseEntity<todo> createTodoItem(@RequestBody todo todoItem) {
+        todo createdTodoItem = todoServiceInstance.save(todoItem);
         return new ResponseEntity<>(createdTodoItem, HttpStatus.CREATED);
     }
 }

@@ -1,11 +1,9 @@
 package com.todo.todosystem.repository;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
-import org.apache.tomcat.util.http.parser.Priority;
 import org.springframework.stereotype.Repository;
 
 import com.todo.todosystem.model.todo;
@@ -16,9 +14,19 @@ public class todoRepositoryImpl implements todoRepository{
 
     private List<todo> toDoList = new ArrayList<todo>();
     @Override
-    public List<todo> saveTodo(todo newTodo) {
-        toDoList.add(newTodo);
-        return toDoList;
+    public todo saveTodo(todo newToDo) {
+        // Validations
+        int textLength = newToDo.getText().length();
+        if (textLength == 0 ) {
+            throw new IllegalArgumentException("Please add a to do description");
+        } else if (textLength > 120) {
+            throw new IllegalArgumentException("The to do description should be at most 120 characters");
+        }
+
+        // Add Id
+        newToDo.setId(UUID.randomUUID().toString()); 
+        toDoList.add(newToDo);
+        return newToDo;
     }
 
     @Override

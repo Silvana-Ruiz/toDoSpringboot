@@ -12,6 +12,6 @@ import com.todo.todosystem.model.todo;
 
 
 public interface todoRepository {
-    List<todo> saveTodo(todo newTodo);
+    todo saveTodo(todo newTodo);
     List<todo> getTodos();
 }

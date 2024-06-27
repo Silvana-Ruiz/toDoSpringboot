@@ -43,7 +43,7 @@ public class todoServiceImpl {
     //     return repository.findAll(pageable);
     // }
 
-    public List<todo> save(todo todoItem) {
+    public todo save(todo todoItem) {
         return repository.saveTodo(todoItem);
     }
 }

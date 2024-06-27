@@ -2,6 +2,7 @@ package com.todo.todosystem.model;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ public class todo {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private String Id;
     private String text;
     private Optional<LocalDate> dueDate;
     private boolean doneFlag;
@@ -29,23 +30,23 @@ public class todo {
     private Priority priority;
     private LocalDate creationDate;
 
-    // remove the optional in priority parameter
-    public todo(int Id, String text) {
-        this.Id = Id;
+    
+    public todo(String text, Optional<LocalDate> dueDate, Optional<LocalDate> doneDate, Priority priority) {
+        this.Id = "";
         this.text = text;
-        // this.dueDate = dueDate;
+        this.dueDate = dueDate;
         this.doneFlag = false;
-        // this.doneDate = doneDate;
-        // this.priority = priority;
+        this.doneDate = doneDate;
+        this.priority = priority;
         this.creationDate = LocalDate.now();
     }
 
-    public int getId() {
+    public String getId() {
         return this.Id;
     }
 
-    public void setId(int Id) {
-        this.Id = Id;
+    public void setId(String Id) {
+        this.Id = UUID.randomUUID().toString();
     }
 
     public String getText() {
