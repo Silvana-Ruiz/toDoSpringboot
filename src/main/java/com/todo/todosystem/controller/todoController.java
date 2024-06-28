@@ -69,4 +69,11 @@ public class todoController {
         todo updatedToDo = todoServiceInstance.setDone(id);
         return new ResponseEntity<>(updatedToDo, HttpStatus.ACCEPTED);
     }
+
+    @PutMapping("/{id}/undone")
+    public ResponseEntity<todo> markUndoneToDoItem(@PathVariable String id) {
+        todo updatedToDo = todoServiceInstance.setUndone(id);
+        return new ResponseEntity<>(updatedToDo, HttpStatus.ACCEPTED);
+    }
+
 }

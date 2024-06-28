@@ -54,4 +54,7 @@ public class todoServiceImpl {
     public todo setDone(String id) {
         return repository.setDoneToDo(id);
     }
+    public todo setUndone(String id) {
+        return repository.setUndoneToDo(id);
+    }
 }

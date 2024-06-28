@@ -66,6 +66,21 @@ public class todoRepositoryImpl implements todoRepository{
         throw new ResourceNotFoundException("The to do item was not found");
     }
 
+    public todo setUndoneToDo(String id) {
+        for (todo toDoElem : toDoList) {
+            if (toDoElem.getId().equals(id)) {
+                // Mark to do as undone
+                toDoElem.setDoneFlag(false);
+                // Clean done date
+                Optional<LocalDate> optionalDate = Optional.empty();
+                toDoElem.setDoneDate(optionalDate);
+                
+                return toDoElem;
+            }
+        }
+        throw new ResourceNotFoundException("The to do item was not found");
+    }
+
     public void validateText(String text) {
         int textLength = text.length();
         if (textLength == 0 ) {
