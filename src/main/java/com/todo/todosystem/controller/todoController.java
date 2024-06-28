@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.todo.todosystem.model.todo;
 import com.todo.todosystem.service.todoServiceImpl;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
+@RequestMapping("/todo")
 public class todoController {
     
     private todoServiceImpl todoServiceInstance;
@@ -26,15 +30,15 @@ public class todoController {
         this.todoServiceInstance = todoServiceInstance;
     }
     
-    @RequestMapping("/hello")
-    public String hello() {
-        return "Hello world!!!";
-    }
+    // @RequestMapping("/hello")
+    // public String hello() {
+    //     return "Hello world!!!";
+    // }
 
     
 
-    @GetMapping("/api/todo/items")
-    public ResponseEntity<List<todo>> getTodoItems() {
+    @GetMapping()
+    public ResponseEntity<List<todo>> getToDoItems() {
         List<todo> todoItems = todoServiceInstance.findAll();
         return ResponseEntity.ok(todoItems);
     }
@@ -48,9 +52,21 @@ public class todoController {
     //     return ResponseEntity.ok(todoItems);
     // }
 
-    @PostMapping("/create")
-    public ResponseEntity<todo> createTodoItem(@RequestBody todo todoItem) {
-        todo createdTodoItem = todoServiceInstance.save(todoItem);
-        return new ResponseEntity<>(createdTodoItem, HttpStatus.CREATED);
+    @PostMapping()
+    public ResponseEntity<todo> createToDoItem(@RequestBody todo toDoItem) {
+        todo createdToDoItem = todoServiceInstance.save(toDoItem);
+        return new ResponseEntity<>(createdToDoItem, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<todo> updateToDoItem(@PathVariable String id, @RequestBody todo toDoItem) {
+        todo updatedToDo = todoServiceInstance.update(id, toDoItem);
+        return new ResponseEntity<>(updatedToDo, HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/{id}/done")
+    public ResponseEntity<todo> markDoneToDoItem(@PathVariable String id) {
+        todo updatedToDo = todoServiceInstance.setDone(id);
+        return new ResponseEntity<>(updatedToDo, HttpStatus.ACCEPTED);
     }
 }

@@ -46,4 +46,12 @@ public class todoServiceImpl {
     public todo save(todo todoItem) {
         return repository.saveTodo(todoItem);
     }
+
+    public todo update(String id, todo todoItem) {
+        return repository.update(id, todoItem);
+    }
+
+    public todo setDone(String id) {
+        return repository.setDoneToDo(id);
+    }
 }

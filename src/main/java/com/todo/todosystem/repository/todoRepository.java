@@ -14,4 +14,6 @@ import com.todo.todosystem.model.todo;
 public interface todoRepository {
     todo saveTodo(todo newTodo);
     List<todo> getTodos();
+    todo update(String id, todo updatedToDo);
+    todo setDoneToDo(String id);
 }

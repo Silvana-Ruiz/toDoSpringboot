@@ -5,8 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 // Id. This could be a number or string or a combination. Must be unique. 
@@ -21,8 +19,7 @@ import jakarta.persistence.Id;
 public class todo {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String Id;
+    private String id;
     private String text;
     private Optional<LocalDate> dueDate;
     private boolean doneFlag;
@@ -32,7 +29,7 @@ public class todo {
 
     
     public todo(String text, Optional<LocalDate> dueDate, Optional<LocalDate> doneDate, Priority priority) {
-        this.Id = "";
+        this.id = "";
         this.text = text;
         this.dueDate = dueDate;
         this.doneFlag = false;
@@ -42,11 +39,11 @@ public class todo {
     }
 
     public String getId() {
-        return this.Id;
+        return this.id;
     }
 
     public void setId(String Id) {
-        this.Id = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();
     }
 
     public String getText() {
