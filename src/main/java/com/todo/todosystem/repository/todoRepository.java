@@ -17,4 +17,5 @@ public interface todoRepository {
     todo update(String id, todo updatedToDo);
     todo setDoneToDo(String id);
     todo setUndoneToDo(String id);
+    String deleteToDo(String id);
 }

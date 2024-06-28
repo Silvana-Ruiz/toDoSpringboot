@@ -50,6 +50,9 @@ public class todoServiceImpl {
     public todo update(String id, todo todoItem) {
         return repository.update(id, todoItem);
     }
+    public String delete(String id) {
+        return repository.deleteToDo(id);
+    }
 
     public todo setDone(String id) {
         return repository.setDoneToDo(id);

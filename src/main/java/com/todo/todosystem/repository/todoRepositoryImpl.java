@@ -49,6 +49,17 @@ public class todoRepositoryImpl implements todoRepository{
         }
         throw new ResourceNotFoundException("The to do item was not found");
     }
+    @Override
+    public String deleteToDo(String id) {
+        for (todo toDoElem : toDoList) {
+            if (toDoElem.getId().equals(id)) {
+                toDoList.remove(toDoElem);
+
+                return "To do item deleted successfully";
+            }
+        }
+        throw new ResourceNotFoundException("The to do item was not found");
+    }
 
     public todo setDoneToDo(String id) {
         for (todo toDoElem : toDoList) {
@@ -74,7 +85,7 @@ public class todoRepositoryImpl implements todoRepository{
                 // Clean done date
                 Optional<LocalDate> optionalDate = Optional.empty();
                 toDoElem.setDoneDate(optionalDate);
-                
+
                 return toDoElem;
             }
         }

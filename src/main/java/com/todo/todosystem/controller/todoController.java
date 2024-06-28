@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,6 +63,12 @@ public class todoController {
     public ResponseEntity<todo> updateToDoItem(@PathVariable String id, @RequestBody todo toDoItem) {
         todo updatedToDo = todoServiceInstance.update(id, toDoItem);
         return new ResponseEntity<>(updatedToDo, HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteToDoItem(@PathVariable String id) {
+        String deletionMessage = todoServiceInstance.delete(id);
+        return new ResponseEntity<>(deletionMessage, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/{id}/done")
