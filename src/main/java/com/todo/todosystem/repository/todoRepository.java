@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.todo.todosystem.model.SearchTodo;
 import com.todo.todosystem.model.todo;
 
 
@@ -18,4 +19,5 @@ public interface todoRepository {
     todo setDoneToDo(String id);
     todo setUndoneToDo(String id);
     String deleteToDo(String id);
+    List<todo> getFilteredToDos(SearchTodo searchTodoItem);
 }

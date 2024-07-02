@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.todo.todosystem.model.SearchTodo;
 import com.todo.todosystem.model.todo;
 import com.todo.todosystem.service.todoServiceImpl;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,18 +31,28 @@ public class todoController {
     public todoController(todoServiceImpl todoServiceInstance) {
         this.todoServiceInstance = todoServiceInstance;
     }
-    
-    // @RequestMapping("/hello")
-    // public String hello() {
-    //     return "Hello world!!!";
-    // }
-
-    
 
     @GetMapping()
-    public ResponseEntity<List<todo>> getToDoItems() {
-        List<todo> todoItems = todoServiceInstance.findAll();
-        return ResponseEntity.ok(todoItems);
+    public ResponseEntity<Object> getToDoItems() {
+        try {
+            List<todo> todoItems = todoServiceInstance.findAll();
+            return ResponseEntity.ok(todoItems);
+        } catch(Exception ex) {
+            return new ResponseEntity<Object>("Failed to fetch to do items", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
+    }
+
+
+    @GetMapping("filter")
+    public ResponseEntity<Object> searchToDos(@RequestBody SearchTodo searchFilter) {
+        try {
+            List<todo> filteredToDos = todoServiceInstance.searchToDos(searchFilter);
+            return new ResponseEntity<Object>(filteredToDos, HttpStatus.ACCEPTED);
+        } catch(Exception ex) {
+            return new ResponseEntity<Object>("Failed to filter to dos", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     // @GetMapping("/api/todo/items/paginated")
@@ -54,9 +65,13 @@ public class todoController {
     // }
 
     @PostMapping()
-    public ResponseEntity<todo> createToDoItem(@RequestBody todo toDoItem) {
-        todo createdToDoItem = todoServiceInstance.save(toDoItem);
-        return new ResponseEntity<>(createdToDoItem, HttpStatus.CREATED);
+    public ResponseEntity<Object> createToDoItem(@RequestBody todo toDoItem) {
+        try {
+            todo createdToDoItem = todoServiceInstance.save(toDoItem);
+            return new ResponseEntity<>(createdToDoItem, HttpStatus.CREATED);
+        } catch(Exception ex) {
+            return new ResponseEntity<Object>("Failed to create to do item", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/{id}")
@@ -72,15 +87,24 @@ public class todoController {
     }
 
     @PutMapping("/{id}/done")
-    public ResponseEntity<todo> markDoneToDoItem(@PathVariable String id) {
-        todo updatedToDo = todoServiceInstance.setDone(id);
-        return new ResponseEntity<>(updatedToDo, HttpStatus.ACCEPTED);
+    public ResponseEntity<Object> markDoneToDoItem(@PathVariable String id) {
+        try {
+            todo updatedToDo = todoServiceInstance.setDone(id);
+            return new ResponseEntity<>(updatedToDo, HttpStatus.ACCEPTED);
+        } catch(Exception ex) {
+            return new ResponseEntity<Object>("To do was not found", HttpStatus.NOT_FOUND);
+        }
+        
     }
 
     @PutMapping("/{id}/undone")
-    public ResponseEntity<todo> markUndoneToDoItem(@PathVariable String id) {
-        todo updatedToDo = todoServiceInstance.setUndone(id);
-        return new ResponseEntity<>(updatedToDo, HttpStatus.ACCEPTED);
+    public ResponseEntity<Object> markUndoneToDoItem(@PathVariable String id) {
+        try {
+            todo updatedToDo = todoServiceInstance.setUndone(id);
+            return new ResponseEntity<>(updatedToDo, HttpStatus.ACCEPTED);
+        } catch(Exception ex) {
+            return new ResponseEntity<Object>("To do was not found", HttpStatus.NOT_FOUND);
+        }
     }
 
 }

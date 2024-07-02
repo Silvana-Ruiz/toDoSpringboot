@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.todo.todosystem.model.SearchTodo;
 import com.todo.todosystem.model.todo;
 import com.todo.todosystem.repository.todoRepository;
 
@@ -36,6 +37,11 @@ public class todoServiceImpl {
     public List<todo> findAll() {
         return repository.getTodos();
     }
+
+    public List<todo> searchToDos(SearchTodo searchFilter) {
+        return repository.getFilteredToDos(searchFilter);
+    }
+
 
     // public Page<todo> findPaginated(int page, int size) {
       

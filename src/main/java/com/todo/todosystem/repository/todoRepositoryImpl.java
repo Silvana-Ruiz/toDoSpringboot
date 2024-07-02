@@ -8,12 +8,16 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
+import com.todo.todosystem.model.Priority;
+import com.todo.todosystem.model.SearchPriority;
+import com.todo.todosystem.model.SearchState;
+import com.todo.todosystem.model.SearchTodo;
 import com.todo.todosystem.model.todo;
 import com.todo.todosystem.exception.ResourceNotFoundException;
 
 
 @Repository
-public class todoRepositoryImpl implements todoRepository{
+public class todoRepositoryImpl implements todoRepository {
 
     private List<todo> toDoList = new ArrayList<todo>();
     @Override
@@ -29,6 +33,60 @@ public class todoRepositoryImpl implements todoRepository{
     @Override
     public List<todo> getTodos() {
         return toDoList;
+    }
+
+    @Override
+    public List<todo> getFilteredToDos(SearchTodo searchTodoItem) {
+        List<todo> filteredToDos = new ArrayList<todo>();
+        List<todo> temporaryToDos = new ArrayList<todo>();
+
+        String searchString = searchTodoItem.getText();
+        SearchPriority searchPriority = searchTodoItem.getPriority();
+        SearchState searchState = searchTodoItem.getState();
+
+        boolean showAllPriorities = searchPriority == SearchPriority.All;
+        boolean showAllStates = searchState == SearchState.All;
+        
+        // Store in the temporaryToDos the items that meet the text filter
+        if (searchString != "") {
+            for (todo toDoElem : toDoList) {
+                if (toDoElem.getText().contains(searchString)) {
+                    temporaryToDos.add(toDoElem);
+                } 
+            }
+        } else {
+            temporaryToDos = toDoList; 
+        }
+
+        // No prorities and state filters were applied
+        if(showAllPriorities && showAllStates) {
+            return temporaryToDos;
+        }
+
+        for (todo toDoElem : temporaryToDos) {
+            // Obatain priority
+            SearchPriority todoPriority = SearchPriority.valueOf(toDoElem.getPriority().name());
+
+    
+            // From the to-do doneFlag assign an enum SearchState 
+            SearchState toDoState = SearchState.All;
+            if (toDoElem.getDoneFlag()) {
+                toDoState = SearchState.Done;
+            } else {
+                toDoState = SearchState.Undone;
+            }
+
+            // Priority and state filter
+            if ((!showAllPriorities && todoPriority == searchPriority) && (!showAllStates && toDoState == searchState)) {
+                filteredToDos.add(toDoElem);
+            } else if (showAllPriorities && toDoState == searchState) { // Only state filter
+                filteredToDos.add(toDoElem);
+            } else if (showAllStates && todoPriority == searchPriority) { // Only priority filter
+                filteredToDos.add(toDoElem);
+            }
+        }
+        
+        return filteredToDos;
     }
 
     @Override
