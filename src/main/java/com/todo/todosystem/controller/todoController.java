@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.todo.todosystem.model.Metrics;
 import com.todo.todosystem.model.SearchTodo;
 import com.todo.todosystem.model.todo;
 import com.todo.todosystem.service.todoServiceImpl;
@@ -55,6 +56,18 @@ public class todoController {
 
     }
 
+    // @GetMapping("pagination")
+    // public ResponseEntity<Object> getToDoItemsPagination(@RequestParam(defaultValue = "0") int pageNo,
+    // @RequestParam(defaultValue = "10") int pageSize) {
+    //     try {
+    //         Page<todo> todoItems = todoServiceInstance.getAllToDos(pageNo, pageSize);
+    //         return ResponseEntity.ok(todoItems);
+    //     } catch(Exception ex) {
+    //         return new ResponseEntity<Object>("Failed to fetch to do items", HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+        
+    // }
+
     // @GetMapping("/api/todo/items/paginated")
     // public ResponseEntity<Page<todo>> getPaginatedTodoItems(
     //         @RequestParam(defaultValue = "0") int page,
@@ -89,9 +102,10 @@ public class todoController {
     @PutMapping("/{id}/done")
     public ResponseEntity<Object> markDoneToDoItem(@PathVariable String id) {
         try {
-            todo updatedToDo = todoServiceInstance.setDone(id);
-            return new ResponseEntity<>(updatedToDo, HttpStatus.ACCEPTED);
+            Metrics metrics = todoServiceInstance.setDone(id);
+            return new ResponseEntity<>(metrics, HttpStatus.ACCEPTED);
         } catch(Exception ex) {
+            System.out.println("exception" + ex);
             return new ResponseEntity<Object>("To do was not found", HttpStatus.NOT_FOUND);
         }
         
@@ -100,8 +114,8 @@ public class todoController {
     @PutMapping("/{id}/undone")
     public ResponseEntity<Object> markUndoneToDoItem(@PathVariable String id) {
         try {
-            todo updatedToDo = todoServiceInstance.setUndone(id);
-            return new ResponseEntity<>(updatedToDo, HttpStatus.ACCEPTED);
+            Metrics metrics = todoServiceInstance.setUndone(id);
+            return new ResponseEntity<>(metrics, HttpStatus.ACCEPTED);
         } catch(Exception ex) {
             return new ResponseEntity<Object>("To do was not found", HttpStatus.NOT_FOUND);
         }

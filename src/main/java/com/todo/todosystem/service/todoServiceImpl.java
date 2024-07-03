@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.todo.todosystem.model.Metrics;
 import com.todo.todosystem.model.SearchTodo;
 import com.todo.todosystem.model.todo;
 import com.todo.todosystem.repository.todoRepository;
@@ -27,10 +28,10 @@ public class todoServiceImpl {
     }
 
    
-    // @Override
-    // public Page<todo> getToDos(int pageNo, int pageSize) { 
-    //     Pageable pageable = PageRequest.of(pageNo, pageSize);
-    //     return repository.findAll(pageable).getContent();
+    // public Page<todo> getAllToDos(int pageNo, int pageSize) { 
+    //     PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+    //     return repository.findAll(pageRequest);
+      
     // }
 
 
@@ -60,10 +61,10 @@ public class todoServiceImpl {
         return repository.deleteToDo(id);
     }
 
-    public todo setDone(String id) {
+    public Metrics setDone(String id) {
         return repository.setDoneToDo(id);
     }
-    public todo setUndone(String id) {
+    public Metrics setUndone(String id) {
         return repository.setUndoneToDo(id);
     }
 }
