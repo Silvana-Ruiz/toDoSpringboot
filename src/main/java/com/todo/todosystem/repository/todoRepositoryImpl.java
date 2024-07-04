@@ -137,12 +137,12 @@ public class todoRepositoryImpl implements todoRepository {
     }
 
     @Override
-    public String deleteToDo(String id) {
+    public List<todo> deleteToDo(String id) {
         for (todo toDoElem : toDoList) {
             if (toDoElem.getId().equals(id)) {
                 toDoList.remove(toDoElem);
 
-                return "To do item deleted successfully";
+                return toDoList;
             }
         }
         throw new ResourceNotFoundException("The to do item was not found");

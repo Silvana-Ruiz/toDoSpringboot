@@ -2,7 +2,6 @@ package com.todo.todosystem.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.todo.todosystem.model.Metrics;
@@ -96,9 +94,9 @@ public class todoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteToDoItem(@PathVariable String id) {
-        String deletionMessage = todoServiceInstance.delete(id);
-        return new ResponseEntity<>(deletionMessage, HttpStatus.ACCEPTED);
+    public ResponseEntity<Object> deleteToDoItem(@PathVariable String id) {
+        List<todo> updatedToDoList = todoServiceInstance.delete(id);
+        return new ResponseEntity<>(updatedToDoList, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/{id}/done")

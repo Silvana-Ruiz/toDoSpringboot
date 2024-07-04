@@ -21,7 +21,7 @@ public interface todoRepository {
     todo update(String id, todo updatedToDo);
     Metrics setDoneToDo(String id);
     Metrics setUndoneToDo(String id);
-    String deleteToDo(String id);
+    List<todo> deleteToDo(String id);
     List<todo> getFilteredToDos(SearchTodo searchTodoItem);
     // Page<todo> getPaginatedToDos(int pageNo, int pageSize);
     // Page<todo> findAll(Pageable pageable);
