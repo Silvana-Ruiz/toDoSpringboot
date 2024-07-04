@@ -270,21 +270,21 @@ public class todoRepositoryImpl implements todoRepository {
             case Low:
                 sumTimeLowTasks -= seconds;
                 lowCounter -= 1;
-                averageSecondsLow = sumTimeLowTasks / ((lowCounter == 0) ? 1 : lowCounter);
+                averageSecondsLow = (lowCounter == 0) ? 0 : sumTimeLowTasks / lowCounter;
                 averageMinutesLow = averageSecondsLow / 60;
                 averageSecondsLow %= 60;
                 break;
             case Medium:
                 sumTimeMediumTasks -= seconds;
                 mediumCounter -= 1;
-                averageSecondsMedium = sumTimeMediumTasks / ((mediumCounter == 0) ? 1 : mediumCounter);
+                averageSecondsMedium = (mediumCounter == 0) ? 0 : sumTimeMediumTasks / mediumCounter;
                 averageMinutesMedium = averageSecondsMedium / 60;
                 averageSecondsMedium %= 60;
                 break;
             default:
                 sumTimeHighTasks -= seconds;
                 highCounter -= 1;
-                averageSecondsHigh = sumTimeHighTasks / ((highCounter == 0) ? 1 : highCounter);
+                averageSecondsHigh = (highCounter == 0) ? 0 : sumTimeHighTasks / highCounter;
                 averageMinutesHigh = averageSecondsHigh / 60;
                 averageSecondsHigh %= 60;
         }
