@@ -6,6 +6,11 @@ public class SearchTodo {
     private SearchPriority priority;
     private SearchState state;
 
+    public SearchTodo(String text, SearchPriority priority, SearchState state) {
+        this.text = text;
+        this.priority = priority;
+        this.state = state;
+    }
 
     public String getText() {
         return this.text;

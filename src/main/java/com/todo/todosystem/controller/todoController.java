@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.todo.todosystem.model.Metrics;
-import com.todo.todosystem.model.SearchTodo;
+import com.todo.todosystem.model.SearchPriority;
+import com.todo.todosystem.model.SearchState;
 import com.todo.todosystem.model.todo;
 import com.todo.todosystem.service.todoServiceImpl;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,22 +35,26 @@ public class todoController {
         this.todoServiceInstance = todoServiceInstance;
     }
 
-    @GetMapping()
-    public ResponseEntity<Object> getToDoItems() {
-        try {
-            List<todo> todoItems = todoServiceInstance.findAll();
-            return ResponseEntity.ok(todoItems);
-        } catch(Exception ex) {
-            return new ResponseEntity<Object>("Failed to fetch to do items", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    // @GetMapping()
+    // public ResponseEntity<Object> getToDoItems() {
+    //     try {
+    //         List<todo> todoItems = todoServiceInstance.findAll();
+    //         return ResponseEntity.ok(todoItems);
+    //     } catch(Exception ex) {
+    //         return new ResponseEntity<Object>("Failed to fetch to do items", HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
         
-    }
+    // }
 
 
-    @GetMapping("filter")
-    public ResponseEntity<Object> searchToDos(@RequestBody SearchTodo searchFilter) {
+    @GetMapping()
+    public ResponseEntity<Object> searchToDos(
+            @RequestParam(value = "text", defaultValue = "") String text,
+            @RequestParam(value = "priority", defaultValue = "All") SearchPriority priority,
+            @RequestParam(value = "state", defaultValue = "All") SearchState state
+        ) {
         try {
-            List<todo> filteredToDos = todoServiceInstance.searchToDos(searchFilter);
+            List<todo> filteredToDos = todoServiceInstance.searchToDos(text, priority, state);
             return new ResponseEntity<Object>(filteredToDos, HttpStatus.ACCEPTED);
         } catch(Exception ex) {
             return new ResponseEntity<Object>("Failed to filter to dos", HttpStatus.INTERNAL_SERVER_ERROR);

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import com.todo.todosystem.model.Metrics;
 import com.todo.todosystem.model.Priority;
-import com.todo.todosystem.model.SearchTodo;
+import com.todo.todosystem.model.SearchPriority;
+import com.todo.todosystem.model.SearchState;
 import com.todo.todosystem.model.todo;
 
 
@@ -22,7 +23,7 @@ public interface todoRepository {
     Metrics setDoneToDo(String id);
     Metrics setUndoneToDo(String id);
     List<todo> deleteToDo(String id);
-    List<todo> getFilteredToDos(SearchTodo searchTodoItem);
+    List<todo> getFilteredToDos(String text, SearchPriority priority, SearchState state);
     // Page<todo> getPaginatedToDos(int pageNo, int pageSize);
     // Page<todo> findAll(Pageable pageable);
     void validateText(String text);

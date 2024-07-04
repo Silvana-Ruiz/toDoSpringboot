@@ -64,9 +64,11 @@ public class todoRepositoryImpl implements todoRepository {
     }
 
     @Override
-    public List<todo> getFilteredToDos(SearchTodo searchTodoItem) {
+    public List<todo> getFilteredToDos(String text, SearchPriority priority, SearchState state) {
         List<todo> filteredToDos = new ArrayList<todo>();
         List<todo> temporaryToDos = new ArrayList<todo>();
+
+        SearchTodo searchTodoItem = new SearchTodo(text, priority, state);
 
         String searchString = searchTodoItem.getText();
         SearchPriority searchPriority = searchTodoItem.getPriority();

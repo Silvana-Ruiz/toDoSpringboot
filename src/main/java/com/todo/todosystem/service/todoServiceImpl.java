@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.todo.todosystem.model.Metrics;
-import com.todo.todosystem.model.SearchTodo;
+import com.todo.todosystem.model.SearchPriority;
+import com.todo.todosystem.model.SearchState;
 import com.todo.todosystem.model.todo;
 import com.todo.todosystem.repository.todoRepository;
 
@@ -39,10 +40,9 @@ public class todoServiceImpl {
         return repository.getTodos();
     }
 
-    public List<todo> searchToDos(SearchTodo searchFilter) {
-        return repository.getFilteredToDos(searchFilter);
+    public List<todo> searchToDos(String text, SearchPriority priority, SearchState state) {
+        return repository.getFilteredToDos(text, priority, state);
     }
-
 
     // public Page<todo> findPaginated(int page, int size) {
       
