@@ -61,6 +61,17 @@ public class todoController {
         }
 
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getToDoById(@PathVariable String id) {
+        try {
+            todo toDo = todoServiceInstance.getToDoById(id);
+            return new ResponseEntity<Object>(toDo, HttpStatus.ACCEPTED);
+        } catch(Exception ex) {
+            System.out.println("exception " + ex);
+            return new ResponseEntity<Object>("Failed to get to do", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 
     // @GetMapping("pagination")
     // public ResponseEntity<Object> getToDoItemsPagination(@RequestParam(defaultValue = "0") int pageNo,
@@ -94,8 +105,8 @@ public class todoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<todo> updateToDoItem(@PathVariable String id, @RequestBody todo toDoItem) {
-        todo updatedToDo = todoServiceInstance.update(id, toDoItem);
+    public ResponseEntity<Object> updateToDoItem(@PathVariable String id, @RequestBody todo toDoItem) {
+        List<todo>  updatedToDo = todoServiceInstance.update(id, toDoItem);
         return new ResponseEntity<>(updatedToDo, HttpStatus.ACCEPTED);
     }
 

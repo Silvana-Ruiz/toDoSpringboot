@@ -17,9 +17,10 @@ import com.todo.todosystem.model.todo;
 
 
 public interface todoRepository {
+    todo getTodo(String id);
     todo saveTodo(todo newTodo);
     List<todo> getTodos();
-    todo update(String id, todo updatedToDo);
+    List<todo> update(String id, todo updatedToDo);
     Metrics setDoneToDo(String id);
     Metrics setUndoneToDo(String id);
     List<todo> deleteToDo(String id);

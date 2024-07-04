@@ -35,6 +35,9 @@ public class todoServiceImpl {
       
     // }
 
+    public todo getToDoById(String id) {
+        return repository.getTodo(id);
+    }
 
     public List<todo> findAll() {
         return repository.getTodos();
@@ -54,7 +57,7 @@ public class todoServiceImpl {
         return repository.saveTodo(todoItem);
     }
 
-    public todo update(String id, todo todoItem) {
+    public List<todo> update(String id, todo todoItem) {
         return repository.update(id, todoItem);
     }
     public List<todo> delete(String id) {

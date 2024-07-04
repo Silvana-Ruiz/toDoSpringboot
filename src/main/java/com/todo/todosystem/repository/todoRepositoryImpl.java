@@ -47,6 +47,16 @@ public class todoRepositoryImpl implements todoRepository {
     private long averageSecondsMedium = 0L;
     private long averageSecondsHigh = 0L;
 
+    @Override
+    public todo getTodo(String id) {
+        for (todo toDoElem : toDoList) {
+            if (toDoElem.getId().equals(id)) {
+                return toDoElem;
+            } 
+            
+        }
+        throw new ResourceNotFoundException("The to do item was not found");
+    }
 
     @Override
     public todo saveTodo(todo newToDo) {
@@ -120,7 +130,7 @@ public class todoRepositoryImpl implements todoRepository {
     }
 
     @Override
-    public todo update(String id, todo updatedToDo) {
+    public List<todo> update(String id, todo updatedToDo) {
         for (todo toDoElem : toDoList) {
             if (toDoElem.getId().equals(id)) {
                 
@@ -131,7 +141,7 @@ public class todoRepositoryImpl implements todoRepository {
                 toDoElem.setText(updatedToDo.getText());
                 toDoElem.setPriority(updatedToDo.getPriority());
                 toDoElem.setDueDate(updatedToDo.getDueDate());
-                return toDoElem;
+                return toDoList;
             } 
             
         }
