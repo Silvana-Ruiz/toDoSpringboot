@@ -33,18 +33,9 @@ import com.todo.todosystem.repository.todoRepository;
 
 @Service
 public class todoServiceImpl {
-    @Autowired
-    private todoRepository repository;
-    
-
-    public todoServiceImpl(todoRepository repository) {
-        this.repository = repository;
-    }
- 
-
-
 
     private List<todo> toDoList = new ArrayList<todo>();
+    private List<todo> filteredToDoList= new ArrayList<todo>();
     
     private long sumSecondsTotal = 0L;
     private long sumTimeLowTasks = 0L;
@@ -75,28 +66,18 @@ public class todoServiceImpl {
         throw new ResourceNotFoundException("The to do item was not found");
     }
 
-    public Map<String, Object> getPaginatedToDo(int page, int size) {
-        Map<String, Object> mapPaginatedToDos = new HashMap<>();
-        try {
-        List<todo> retrievedTodos = new ArrayList<todo>();
-        Pageable paging = PageRequest.of(page, size);
-        
-        Page<todo> pageToDos = repository.findAll(paging);
+    public List<todo> getPaginatedToDo(int page, int size) {
+        int startIndex = (page - 1) * size;
+        int endIndex = Math.min(startIndex + size, filteredToDoList.size());
+        System.out.println("startIndex" + startIndex);
+        System.out.println("endIndex" + endIndex);
 
-
-        retrievedTodos = pageToDos.getContent();
-
-        
-        mapPaginatedToDos.put("tutorials", retrievedTodos);
-        mapPaginatedToDos.put("currentPage", pageToDos.getNumber());
-        mapPaginatedToDos.put("totalItems", pageToDos.getTotalElements());
-        mapPaginatedToDos.put("totalPages", pageToDos.getTotalPages());
-
-        
-        } catch (Exception exception) {
-            System.out.println(exception);
+        if (startIndex >= filteredToDoList.size()) {
+            return new ArrayList<>();
         }
-        return mapPaginatedToDos;
+       
+        System.out.println(filteredToDoList.subList(startIndex, endIndex));
+        return filteredToDoList.subList(startIndex, endIndex);
     }
 
 
@@ -116,7 +97,9 @@ public class todoServiceImpl {
 
 
     public List<todo> getFilteredToDos(String text, SearchPriority priority, SearchState state) {
-        List<todo> filteredToDos = new ArrayList<todo>();
+        // Empty filtered to dos from previous searches
+        filteredToDoList.clear();
+
         List<todo> temporaryToDos = new ArrayList<todo>();
 
         SearchTodo searchTodoItem = new SearchTodo(text, priority, state);
@@ -136,12 +119,13 @@ public class todoServiceImpl {
                 } 
             }
         } else {
-            temporaryToDos = toDoList; 
+            filteredToDoList = toDoList;
         }
 
         // No prorities and state filters were applied
         if(showAllPriorities && showAllStates) {
-            return temporaryToDos;
+            filteredToDoList = temporaryToDos;
+            return filteredToDoList;
         }
 
         for (todo toDoElem : temporaryToDos) {
@@ -159,15 +143,15 @@ public class todoServiceImpl {
 
             // Priority and state filter
             if ((!showAllPriorities && todoPriority == searchPriority) && (!showAllStates && toDoState == searchState)) {
-                filteredToDos.add(toDoElem);
+                filteredToDoList.add(toDoElem);
             } else if (showAllPriorities && toDoState == searchState) { // Only state filter
-                filteredToDos.add(toDoElem);
+                filteredToDoList.add(toDoElem);
             } else if (showAllStates && todoPriority == searchPriority) { // Only priority filter
-                filteredToDos.add(toDoElem);
+                filteredToDoList.add(toDoElem);
             }
         }
         
-        return filteredToDos;
+        return filteredToDoList;
     }
 
    

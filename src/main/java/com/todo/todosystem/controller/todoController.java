@@ -148,11 +148,15 @@ public class todoController {
 
     @GetMapping("/pagination")
     public ResponseEntity<Object> getPaginatedToDos(
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "3") int size
         ) {
-            Map<String, Object>  mapPaginatedToDos  = todoServiceInstance.getPaginatedToDo(page, size);
-            return new ResponseEntity<>(mapPaginatedToDos, HttpStatus.ACCEPTED);
+        try {
+            List<todo> paginatedToDos  = todoServiceInstance.getPaginatedToDo(page, size);
+            return new ResponseEntity<>(paginatedToDos, HttpStatus.ACCEPTED);
+        } catch(Exception ex) {
+                return new ResponseEntity<Object>(ex, HttpStatus.NOT_FOUND);
+            }
        
     }
 
