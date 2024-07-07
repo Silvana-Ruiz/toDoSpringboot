@@ -17,17 +17,4 @@ import com.todo.todosystem.model.todo;
 
 @Repository
 public interface todoRepository extends JpaRepository<todo, String> {
-    // todo getTodo(String id);
-    // todo saveTodo(todo newTodo);
-    // List<todo> getTodos();
-    // List<todo> update(String id, todo updatedToDo);
-    // Metrics setDoneToDo(String id);
-    // Metrics setUndoneToDo(String id);
-    // List<todo> deleteToDo(String id);
-    // List<todo> getFilteredToDos(String text, SearchPriority priority, SearchState state);
-    // // Page<todo> getPaginatedToDos(int pageNo, int pageSize);
-    // // Page<todo> findAll(Pageable pageable);
-    // void validateText(String text);
-    // Metrics calculateAverageTime(LocalDateTime creationDate, LocalDateTime doneDate, Priority priority);
-    // Metrics removeFromAverageTime(LocalDateTime creationDate, LocalDateTime doneDate, Priority priority);
 }

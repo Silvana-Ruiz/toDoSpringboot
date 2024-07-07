@@ -43,18 +43,6 @@ public class todoController {
         this.todoServiceInstance = todoServiceInstance;
     }
 
-    // @GetMapping()
-    // public ResponseEntity<Object> getToDoItems() {
-    //     try {
-    //         List<todo> todoItems = todoServiceInstance.getTodos();
-    //         return ResponseEntity.ok(todoItems);
-    //     } catch(Exception ex) {
-    //         return new ResponseEntity<Object>("Failed to fetch to do items", HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-        
-    // }
-
-
     @GetMapping()
     public ResponseEntity<Object> searchToDos(
             @RequestParam(value = "text", defaultValue = "") String text,
@@ -81,26 +69,6 @@ public class todoController {
 
     }
 
-    // @GetMapping("pagination")
-    // public ResponseEntity<Object> getToDoItemsPagination(@RequestParam(defaultValue = "0") int pageNo,
-    // @RequestParam(defaultValue = "10") int pageSize) {
-    //     try {
-    //         Page<todo> todoItems = todoServiceInstance.getAllToDos(pageNo, pageSize);
-    //         return ResponseEntity.ok(todoItems);
-    //     } catch(Exception ex) {
-    //         return new ResponseEntity<Object>("Failed to fetch to do items", HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-        
-    // }
-
-    // @GetMapping("/api/todo/items/paginated")
-    // public ResponseEntity<Page<todo>> getPaginatedTodoItems(
-    //         @RequestParam(defaultValue = "0") int page,
-    //         @RequestParam(defaultValue = "10") int size) {
-
-    //     Page<todo> todoItems = todoServiceInstance.findPaginated(page, size);
-    //     return ResponseEntity.ok(todoItems);
-    // }
 
     @PostMapping()
     public ResponseEntity<Object> createToDoItem(@RequestBody todo toDoItem) {
@@ -156,9 +124,28 @@ public class todoController {
             return new ResponseEntity<>(paginatedToDos, HttpStatus.ACCEPTED);
         } catch(Exception ex) {
                 return new ResponseEntity<Object>(ex, HttpStatus.NOT_FOUND);
-            }
-       
+        }
     }
 
+    @PutMapping("/alldone")
+    public ResponseEntity<Object> markAllTodDoDone() {
+        try {
+            Metrics metrics = todoServiceInstance.setAllDone();
+            return new ResponseEntity<>(metrics, HttpStatus.ACCEPTED);
+        } catch(Exception ex) {
+            System.out.println("exception" + ex);
+            return new ResponseEntity<Object>("All to do's could not be marked as done", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
+    @PutMapping("/allundone")
+    public ResponseEntity<Object> markAllTodDoUndone() {
+        try {
+            Metrics metrics = todoServiceInstance.setAllUndone();
+            return new ResponseEntity<>(metrics, HttpStatus.ACCEPTED);
+        } catch(Exception ex) {
+            System.out.println("exception" + ex);
+            return new ResponseEntity<Object>("All to do's could not be marked as undone", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

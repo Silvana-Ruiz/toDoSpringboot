@@ -229,11 +229,118 @@ public class todoServiceImpl {
         }
         throw new ResourceNotFoundException("The to do item was not found");
     }
-    // @Override
-    // public Page<todo> getPaginatedToDos(int pageNo, int pageSize) {
-    //     PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
-    //     return this.findAll(pageRequest);
-    // }
+
+    public Metrics setAllUndone() {
+        sumSecondsTotal = 0L;
+        sumTimeLowTasks = 0L;
+        sumTimeMediumTasks = 0L;
+        sumTimeHighTasks = 0L;
+
+        lowCounter = 0;
+        mediumCounter = 0;
+        highCounter = 0;
+
+        averageMinutesLow = 0L;
+        averageMinutesMedium = 0L;
+        averageMinutesHigh = 0L;
+            
+        averageSecondsTotal = 0L;
+        averageSecondsLow = 0L;
+        averageSecondsMedium = 0L;
+        averageSecondsHigh = 0L;
+        Metrics metrics = new Metrics("0:00", "0:00", "0:00", "0:00");
+        return metrics;
+    }
+
+    public Metrics setAllDone() {
+        sumSecondsTotal = 0L;
+        sumTimeLowTasks = 0L;
+        sumTimeMediumTasks = 0L;
+        sumTimeHighTasks = 0L;
+
+        lowCounter = 0;
+        mediumCounter = 0;
+        highCounter = 0;
+
+        averageMinutesLow = 0L;
+        averageMinutesMedium = 0L;
+        averageMinutesHigh = 0L;
+            
+        averageSecondsTotal = 0L;
+        averageSecondsLow = 0L;
+        averageSecondsMedium = 0L;
+        averageSecondsHigh = 0L;
+
+        for (todo toDoElem : toDoList) {
+            // Mark to do as done
+            toDoElem.setDoneFlag(true);
+            // Set done date
+            LocalDateTime newDoneDate = LocalDateTime.now();
+            Optional<LocalDateTime> optionalDate = Optional.ofNullable(newDoneDate);
+            toDoElem.setDoneDate(optionalDate);
+
+            // Include this to do in the metrics
+            LocalDateTime notOptionalDoneDate = toDoElem.getDoneDate().orElseThrow();
+          
+
+
+            Duration duration  = Duration.between(toDoElem.getCreationDate(), notOptionalDoneDate);
+            long seconds = duration.getSeconds();
+            sumSecondsTotal += seconds;
+
+            switch(toDoElem.getPriority()) {
+                case Low:
+                    sumTimeLowTasks += seconds;
+                    lowCounter += 1;
+                    break;
+                case Medium:
+                    sumTimeMediumTasks += seconds;
+                    mediumCounter += 1;
+                    break;
+                default:
+                    sumTimeHighTasks += seconds;
+                    highCounter += 1;
+            }
+        }
+
+        averageSecondsTotal = sumSecondsTotal / toDoList.size();
+        long aveMin = averageSecondsTotal / 60;
+        averageSecondsTotal %= 60;
+
+        averageSecondsLow = sumTimeLowTasks / lowCounter;
+        averageMinutesLow = averageMinutesLow / 60;
+        averageSecondsLow %= 60;
+
+        averageSecondsMedium = sumTimeMediumTasks / mediumCounter;
+        averageMinutesMedium = averageSecondsMedium / 60;
+        averageSecondsMedium %= 60;
+
+        averageSecondsHigh = sumTimeHighTasks / highCounter;
+        averageMinutesHigh = averageSecondsHigh / 60;
+        averageSecondsHigh %= 60;
+
+        String strAveTotal = Long.toString(averageSecondsTotal);
+        String strAveLow = Long.toString(averageSecondsLow);
+        String strAveMedium = Long.toString(averageSecondsMedium);
+        String strAveHigh = Long.toString(averageSecondsHigh);
+
+
+        String aveTimeTotal = aveMin + ":" + ((strAveTotal.length() == 1) ? "0" + strAveTotal : strAveTotal);
+        String aveTimeLow = averageMinutesLow + ":" + ((strAveLow.length() == 1) ? "0" + strAveLow : strAveLow);
+        String aveTimeMedium = averageMinutesMedium + ":" + ((strAveMedium.length() == 1) ? "0" + strAveMedium : strAveMedium);
+        String aveTimeHigh = averageMinutesHigh + ":" + ((strAveHigh.length() == 1) ? "0" + strAveHigh : strAveHigh);
+
+        System.out.println("aveTimeTotal:" + aveTimeTotal);
+        System.out.println("aveTimeLow:" + aveTimeLow);
+        System.out.println("aveTimeMedium:" + aveTimeMedium);
+        System.out.println("aveTimeHigh:" + aveTimeHigh);
+    
+        Metrics totMetrics = new Metrics(aveTimeTotal, aveTimeLow, aveTimeMedium, aveTimeHigh);
+
+        return totMetrics;
+    }
+
+    
 
    
     public void validateText(String text) {
@@ -346,50 +453,4 @@ public class todoServiceImpl {
     }
 
   
-
-    
-    
-
-   
-    // public Page<todo> getAllToDos(int pageNo, int pageSize) { 
-    //     PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
-    //     return repository.findAll(pageRequest);
-      
-    // }
-
-    // public todo getToDoById(String id) {
-    //     return repository.getTodo(id);
-    // }
-
-    // public List<todo> getTodos() {
-    //     return repository.getTodos();
-    // }
-
-    // public List<todo> searchToDos(String text, SearchPriority priority, SearchState state) {
-    //     return repository.getFilteredToDos(text, priority, state);
-    // }
-
-    // public Page<todo> findPaginated(int page, int size) {
-      
-    //     Pageable pageable = PageRequest.of(page, size);
-    //     return repository.findAll(pageable);
-    // }
-
-    // public todo save(todo todoItem) {
-    //     return repository.saveTodo(todoItem);
-    // }
-
-    // public List<todo> update(String id, todo todoItem) {
-    //     return repository.update(id, todoItem);
-    // }
-    // public List<todo> delete(String id) {
-    //     return repository.deleteToDo(id);
-    // }
-
-    // public Metrics setDone(String id) {
-    //     return repository.setDoneToDo(id);
-    // }
-    // public Metrics setUndone(String id) {
-    //     return repository.setUndoneToDo(id);
-    // }
 }
