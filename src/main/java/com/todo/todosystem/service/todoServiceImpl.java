@@ -212,7 +212,6 @@ public class todoServiceImpl {
     public Metrics setUndoneToDo(String id) {
         for (todo toDoElem : toDoList) {
             if (toDoElem.getId().equals(id)) {
-                System.out.println(toDoElem.getText());
                 // Mark to do as undone
                 toDoElem.setDoneFlag(false);
 
@@ -248,6 +247,14 @@ public class todoServiceImpl {
         averageSecondsLow = 0L;
         averageSecondsMedium = 0L;
         averageSecondsHigh = 0L;
+        for (todo toDoElem : toDoList) {
+            // Mark to do as undone
+            toDoElem.setDoneFlag(false);
+
+            // Clean done date
+            Optional<LocalDateTime> optionalDate = Optional.empty();
+            toDoElem.setDoneDate(optionalDate);
+        }
         Metrics metrics = new Metrics("0:00", "0:00", "0:00", "0:00");
         return metrics;
     }
