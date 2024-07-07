@@ -67,7 +67,8 @@ public class todoServiceImpl {
     }
 
     public List<todo> getPaginatedToDo(int page, int size) {
-        int startIndex = (page - 1) * size;
+        int indx = (page - 1) * size;
+        int startIndex = indx > 0 ? indx : 0;
         int endIndex = Math.min(startIndex + size, filteredToDoList.size());
         System.out.println("startIndex" + startIndex);
         System.out.println("endIndex" + endIndex);
