@@ -57,6 +57,21 @@ public class todoController {
         }
 
     }
+
+    @GetMapping("sort")
+    public ResponseEntity<Object> sortToDoList(
+            @RequestParam(value = "priorityorder", defaultValue = "") String priorityorder,
+            @RequestParam(value = "duedateorder", defaultValue = "") String duedateorder
+        ) {
+        try {
+            List<todo> sortedToDos = todoServiceInstance.sortToDos(priorityorder, duedateorder);
+            return new ResponseEntity<Object>(sortedToDos, HttpStatus.ACCEPTED);
+        } catch(Exception ex) {
+            return new ResponseEntity<Object>("Failed to sort to dos", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> getToDoById(@PathVariable String id) {
         try {

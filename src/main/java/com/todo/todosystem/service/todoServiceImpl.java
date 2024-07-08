@@ -3,20 +3,16 @@ package com.todo.todosystem.service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import com.todo.todosystem.exception.ResourceNotFoundException;
 import com.todo.todosystem.model.Metrics;
@@ -25,8 +21,6 @@ import com.todo.todosystem.model.SearchPriority;
 import com.todo.todosystem.model.SearchState;
 import com.todo.todosystem.model.SearchTodo;
 import com.todo.todosystem.model.todo;
-import com.todo.todosystem.repository.todoRepository;
-
 
 
 
@@ -153,6 +147,28 @@ public class todoServiceImpl {
         }
         
         return filteredToDoList;
+    }
+
+    public List<todo> sortToDos(String priorityorder, String duedateorder) {
+        System.out.println("filteredToDoList" + filteredToDoList);
+        List<todo> sortedToDoList = filteredToDoList;
+        try {
+            
+            System.out.println("priorityorder" + priorityorder);
+            if ("DSC".equals(priorityorder)) {
+                System.out.println("dsc");
+                sortedToDoList.sort(Comparator.comparing((todo obj) -> obj.getPriority().ordinal()));
+                
+
+            } else if ("ASC".equals(priorityorder)) {
+                System.out.println("asc");
+                sortedToDoList.sort(Comparator.comparing((todo obj) -> obj.getPriority().ordinal()).reversed());
+            }
+            return sortedToDoList;
+        } catch(Exception ex) {
+            System.out.println(ex);
+        }
+        return sortedToDoList;
     }
 
    
