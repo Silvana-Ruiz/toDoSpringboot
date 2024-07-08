@@ -45,5 +45,4 @@ public class Metrics {
     public void setAverageTimeHighTasks(String averageTimeHighTasks) {
         this.averageTimeHighTasks = averageTimeHighTasks;
     }
-
 }
