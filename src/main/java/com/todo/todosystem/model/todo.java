@@ -1,11 +1,11 @@
 package com.todo.todosystem.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 // Id. This could be a number or string or a combination. Must be unique. 
@@ -18,38 +18,33 @@ import jakarta.persistence.Id;
 
 @Entity
 public class todo {
-    enum Priority {
-        High,
-        Medium,
-        Low
-      }
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private String id;
     private String text;
     private Optional<LocalDate> dueDate;
     private boolean doneFlag;
-    private Optional<LocalDate> doneDate;
+    private Optional<LocalDateTime> doneDate;
     private Priority priority;
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
 
-    public todo(int Id, String text, Optional<LocalDate> dueDate, Optional<LocalDate> doneDate, Priority priority, LocalDate creationDate) {
-        this.Id = Id;
+    
+    public todo(String text, Optional<LocalDate> dueDate, Optional<LocalDateTime> doneDate, Priority priority) {
+        this.id = "";
         this.text = text;
         this.dueDate = dueDate;
         this.doneFlag = false;
         this.doneDate = doneDate;
         this.priority = priority;
-        this.creationDate = LocalDate.now();
+        this.creationDate = LocalDateTime.now();
     }
 
-    public int getId() {
-        return this.Id;
+    public String getId() {
+        return this.id;
     }
 
-    public void setId(int Id) {
-        this.Id = Id;
+    public void setId(String Id) {
+        this.id = UUID.randomUUID().toString();
     }
 
     public String getText() {
@@ -80,11 +75,11 @@ public class todo {
         this.doneFlag = doneFlag;
     }
 
-    public Optional<LocalDate> getDoneDate() {
+    public Optional<LocalDateTime> getDoneDate() {
         return this.doneDate;
     }
 
-    public void setDoneDate(Optional<LocalDate> doneDate) {
+    public void setDoneDate(Optional<LocalDateTime> doneDate) {
         this.doneDate = doneDate;
     }
 
@@ -96,11 +91,11 @@ public class todo {
         this.priority = priority;
     }
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return this.creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
