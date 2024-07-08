@@ -3,8 +3,6 @@ package com.todo.todosystem.service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -158,12 +156,20 @@ public class todoServiceImpl {
             if ("DSC".equals(priorityorder)) {
                 System.out.println("dsc");
                 sortedToDoList.sort(Comparator.comparing((todo obj) -> obj.getPriority().ordinal()));
-                
-
+            
             } else if ("ASC".equals(priorityorder)) {
                 System.out.println("asc");
                 sortedToDoList.sort(Comparator.comparing((todo obj) -> obj.getPriority().ordinal()).reversed());
             }
+
+            if("ASC".equals(duedateorder)) {
+                sortedToDoList.sort(Comparator.comparing((todo obj) -> obj.getDueDate().orElse(null)));
+            } else if ("DSC".equals(duedateorder)) {
+                sortedToDoList.sort(Comparator.comparing((todo obj) -> obj.getDueDate().orElse(null), Comparator.nullsLast(Comparator.reverseOrder())));
+            }
+
+
+            
             return sortedToDoList;
         } catch(Exception ex) {
             System.out.println(ex);
