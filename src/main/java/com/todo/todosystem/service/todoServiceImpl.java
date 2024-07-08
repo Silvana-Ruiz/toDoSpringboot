@@ -168,6 +168,21 @@ public class todoServiceImpl {
                 sortedToDoList.sort(Comparator.comparing((todo obj) -> obj.getDueDate().orElse(null), Comparator.nullsLast(Comparator.reverseOrder())));
             }
 
+            // Comparator for priority
+            // Comparator<todo> priorityComparator = Comparator.comparing((todo obj) -> obj.getPriority().ordinal());
+
+            // // Comparator for due date (nulls last)
+            // Comparator<todo> dueDateComparator = Comparator.comparing((todo obj) -> obj.getDueDate().orElse(null),
+            //         Comparator.nullsLast(Comparator.naturalOrder()));
+
+    
+            // if (priorityorder != "" && duedateorder != "" ) {
+            //     sortedToDoList.sort(priorityComparator.thenComparing(dueDateComparator));
+            // } else if (priorityorder != "") {
+            //     sortedToDoList.sort(priorityComparator);
+            // } else if (duedateorder != "" ) {
+            //     sortedToDoList.sort(dueDateComparator);
+            // }
 
             
             return sortedToDoList;
@@ -198,12 +213,16 @@ public class todoServiceImpl {
 
   
     public List<todo> deleteToDo(String id) {
+        try {
         for (todo toDoElem : toDoList) {
             if (toDoElem.getId().equals(id)) {
                 toDoList.remove(toDoElem);
 
                 return toDoList;
             }
+        }
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
         throw new ResourceNotFoundException("The to do item was not found");
     }
