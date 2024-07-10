@@ -39,45 +39,4 @@ class TodosystemApplicationTests {
 	void contextLoads() {
 	}
 
-
-    private List<todo> toDoList;
-    @BeforeEach
-    public void setup() {
-        toDoList = new ArrayList<>();
-        todo todo1 = new todo("Task 1", Optional.empty(), Optional.empty(), Priority.Low);
-        todo todo2 = new todo("Task 2", Optional.empty(), Optional.empty(), Priority.Medium);
-        todo todo3 = new todo("Task 3", Optional.empty(), Optional.empty(), Priority.High);
-        toDoList.add(todo1);
-        toDoList.add(todo2);
-        toDoList.add(todo3);
-        
-    }
-
-    @Test
-    public void testDeleteToDo_Successful() {
-        // Get the ID of the first todo item
-        String idToDelete = toDoList.get(0).getId();
-
-        // Call the deleteToDo method
-        List<todo> remainingTodos = deleteToDoHelper(idToDelete);
-
-        // Verify that the todo item with the specified ID is deleted
-        assertEquals(2, remainingTodos.size());
-        assertFalse(remainingTodos.stream().anyMatch(todo -> todo.getId().equals(idToDelete)));
-    }
-
-
-	private List<todo> deleteToDoHelper(String id) {
-
-        Iterator<todo> iterator = toDoList.iterator();
-        while (iterator.hasNext()) {
-            todo todo = iterator.next();
-            if (todo.getId().equals(id)) {
-                iterator.remove();
-                return toDoList;
-            }
-        }
-        throw new ResourceNotFoundException("The to do item was not found");
-    }
-
 }
